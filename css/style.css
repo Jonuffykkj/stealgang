@@ -139,6 +139,7 @@ video {
     height: 23px;
     margin-left: 5px;
     position: relative;
+    background-size: cover;
 }
 
 .badge[data-tooltip] {
