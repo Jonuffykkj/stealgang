@@ -14,10 +14,11 @@ body {
 
 .all {
     display: flex;
-    justify-content: space-around;
-    max-width: 1200px; /* Adicionei esta regra para limitar a largura em dispositivos maiores */
-    width: 100%; /* Adicionei esta regra para garantir que a largura seja de 100% */
-    box-sizing: border-box; /* Adicionei esta regra para incluir a largura do padding e da borda no cálculo da largura total */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* Espaçamento entre os elementos */
+    max-width: 1200px;
+    margin: 0 auto; /* Centraliza o conteúdo */
 }
 
 .overlay {
@@ -60,8 +61,6 @@ video {
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.4);
     color: #FFFFFF;
-    position: relative;
-    margin: 25px;
     max-width: 400px;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000000 100%);
 }
@@ -79,14 +78,8 @@ video {
 }
 
 .avatar {
-    z-index: 1;
     width: 100px;
     height: 100px;
-    position: relative;
-    margin-top: -70px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
     border-radius: 100px;
     border: 7px solid #202124;
     transition-duration: 0.4s;
@@ -96,10 +89,7 @@ video {
 .pfp img {
     width: 150px;
     height: 150px;
-    background-size: cover;
-    background-position: center;
     border-radius: 50%;
-    margin: 0 auto 20px;
     border: 3px solid #2c2b2b;
     cursor: pointer;
 }
@@ -108,10 +98,7 @@ video {
 .avatard {
     width: 150px;
     height: 150px;
-    background-size: cover;
-    background-position: center;
     border-radius: 50%;
-    margin: 0 auto 20px;
     border: 5px solid #444;
     cursor: pointer;
 }
@@ -129,9 +116,6 @@ video {
     font-size: 23px;
     font-weight: bold;
     margin: 0 0 -9px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     user-select: none;
 }
 
@@ -140,15 +124,11 @@ video {
     font-size: 15px;
     opacity: 0.7;
     user-select: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .badges {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     margin-top: 5px;
@@ -157,10 +137,6 @@ video {
 .badge {
     width: 23px;
     height: 23px;
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-left: 5px;
     position: relative;
 }
@@ -185,7 +161,6 @@ video {
     font-size: 12px;
     opacity: 0;
     transition: opacity 0.3s ease;
-    font-family: 'Arial', sans-serif;
 }
 
 .badge[data-tooltip]:hover::after {
@@ -215,7 +190,6 @@ video {
     justify-content: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    text-decoration: none;
 }
 
 .social-button:hover {
@@ -260,8 +234,6 @@ audio {
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.4);
     color: #FFFFFF;
-    position: relative;
-    margin: 25px;
     max-width: 400px;
     height: 350px;
     background-color: #000000;
@@ -283,7 +255,6 @@ audio {
     justify-content: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    text-decoration: none;
 }
 
 .social-buttonn:hover {
