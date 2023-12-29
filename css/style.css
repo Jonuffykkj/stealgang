@@ -6,6 +6,7 @@ body {
     width: 100%;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #36393F;
@@ -13,11 +14,28 @@ body {
 
 .all {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.discord-profile {
-  width: 80%
+.overlay {
+    z-index: 1;
+    background-color: #000001;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.overlay label {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    color: rgb(255, 255, 255);
+    font-size: 2rem;
 }
 
 video {
@@ -304,59 +322,25 @@ audio {
 }
 
 @media (max-width: 768px) {
-    body {
-        margin: 110px;
-        padding: 100px;
-        width: 100%;
-        height: 200vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+    .discord-profile {
+        text-align: center;
+        padding: 20px;
+        margin: 10px;
     }
 }
 
 @media (max-width: 600px) {
-    body {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-}
-
-@media (max-width: 300px) {
-    body {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+    .discord-profile {
+        text-align: center;
+        padding: 20px;
+        margin: 10px;
     }
 }
 
 @media (max-width: 400px) {
-    body {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+    .discord-profile {
+        text-align: center;
+        padding: 10px;
+        margin: 5px;
     }
 }
