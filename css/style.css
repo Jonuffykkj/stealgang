@@ -14,9 +14,10 @@ body {
 
 .all {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-around;
+    max-width: 1200px; /* Adicionei esta regra para limitar a largura em dispositivos maiores */
+    width: 100%; /* Adicionei esta regra para garantir que a largura seja de 100% */
+    box-sizing: border-box; /* Adicionei esta regra para incluir a largura do padding e da borda no cálculo da largura total */
 }
 
 .overlay {
@@ -319,6 +320,13 @@ audio {
     justify-content: center;
     color: beige;
     margin: 10px -110px 10px 10px;
+}
+
+@media (max-width: 1200px) {
+    .all {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 @media (max-width: 768px) {
