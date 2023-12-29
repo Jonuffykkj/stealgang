@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>stealgang</title>
+  <link rel="icon" href="https://media.discordapp.net/attachments/1118382359721562273/1163301560693030912/1157947305559855124.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body style="background-size: cover; background-position: center;">
+  <script>
+    function audioPlay() {
+      var audio = document.getElementById("audio");
+      audio.volume = 1.0;
+      audio.currentTime = 0;
+      audio.play();
+    }
+  </script>
+
+  <audio loop preload="auto" id="audio">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <input type="checkbox" autocomplete="off" id="overlay-toggle">
+  <div class="overlay fullscreen">
+    <label for="overlay-toggle" onclick="audioPlay();">
+      <span class="overlayno-hover hover" style="font-family: monospace; font-size: 0.6em;">stealgang</span>
+      <span class="overlayhover hover" style="font-family: monospace; font-size: 0.6em;">stealgang</span>
+    </label>
+  </div>
+
+  <video autoplay loop muted>
+    <source src="https://cdn.discordapp.com/attachments/1153734564473221141/1183452701837774878/the-jokers-insanity-moewalls-com.mp4" type="video/mp4">
+    Seu navegador não suporta vídeo.
+  </video>
+
+  <div class="all">
+    <div class="discord-profile">
+      <div class="profile animate__animated animate__fadeInUp animate__fast"> 
+        <div class="pfp">
+          <img src="img/ace.gif" alt="odeioamor">
+        </div>
+        <div class="nickr">𝐀𝐂𝐄 ⍟</div>
+        <div class="nick subnick">odeioamor</div>
+        <div class="badges">
+          <div class="badge" style="background-image: url('img/apoiador.png')" data-tooltip="Apoiador Inicial"></div>
+            <div class="badge" style="background-image: url('img/nitro.gif')" data-tooltip="Assinante desde 16 de dez. de 2023"></div>
+            <div class="badge" style="background-image: url('img/impulso.png')" data-tooltip="Impulsionando o servidor desde 16 de dez. de 2023"></div>
+        </div>
+        <div class="nick subnick"></div>
+        <div class="social-buttons">
+          <a href="https://www.instagram.com/stealht_gang/" target="_blank" class="social-button">
+            <i class="fab fa-instagram social-icon"></i>
+          </a>
+          <a href="https://discord.gg/8JF6JRnV4a" target="_blank" class="social-button">
+            <i class="fab fa-discord social-icon"></i>
+          </a>
+          <a href="https://www.youtube.com/@Stealgang" onclick="playAudio()" class="social-button">
+              <i class="fab fa-youtube social-icon"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
