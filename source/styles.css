@@ -1,0 +1,250 @@
+:root {
+  --primary-color: #1a1a1a;
+  --secondary-color: #2a2a2a;
+  --text-color: #ffffff;
+  --accent-color: #4a4a4a;
+  --background-image: url('images/background.jpg');
+  --card-background: rgba(42, 42, 42, 0.8);
+  --card-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  --transition-speed: 0.3s;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: var(--background-image) no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text-color);
+  transition: background-image var(--transition-speed) ease;
+}
+
+#particles-js {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#startButton {
+  font-size: 1.5em;
+  padding: 15px 30px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), transform 0.2s;
+}
+
+#startButton:hover {
+  background-color: #5a5a5a;
+  transform: scale(1.05);
+}
+
+.profiles-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+}
+
+.profile-card {
+  background-color: var(--card-background);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  width: 300px;
+  box-shadow: var(--card-shadow);
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  backdrop-filter: blur(5px);
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: block;
+  object-fit: cover;
+  border: 3px solid var(--accent-color);
+}
+
+.profile-name {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.profile-subname {
+  font-size: 1em;
+  color: #cccccc;
+  text-align: center;
+}
+
+.badges {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+  margin: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.badge:hover {
+  transform: scale(1.2);
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.social-button {
+  margin: 0 10px;
+  font-size: 1.5em;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color var(--transition-speed), transform 0.2s;
+}
+
+.social-button:hover {
+  color: #aaaaaa;
+  transform: scale(1.2);
+}
+
+.config-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(26, 26, 26, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  max-width: 300px;
+  width: 100%;
+  backdrop-filter: blur(10px);
+  cursor: move;
+  z-index: 1000;
+}
+
+.config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.config-panel h2 {
+  margin: 0;
+}
+
+.config-panel button,
+.config-panel input,
+.config-panel select {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid var(--accent-color);
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
+.config-panel button {
+  cursor: pointer;
+  transition: background-color var(--transition-speed), transform 0.2s;
+}
+
+.config-panel button:hover {
+  background-color: var(--accent-color);
+  transform: scale(1.05);
+}
+
+.hidden {
+  display: none;
+}
+
+.ip-display {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(26, 26, 26, 0.7);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8em;
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: rgba(26, 26, 26, 0.7);
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.theme-toggle i {
+  font-size: 1.2em;
+}
+
+.theme-toggle .fa-sun {
+  display: none;
+}
+
+body.light-theme {
+  --primary-color: #f0f0f0;
+  --secondary-color: #e0e0e0;
+  --text-color: #333333;
+  --accent-color: #4a90e2;
+  --background-image: url('images/light-background.jpg');
+  --card-background: rgba(240, 240, 240, 0.8);
+  --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+body.light-theme .theme-toggle .fa-sun {
+  display: inline-block;
+}
+
+body.light-theme .theme-toggle .fa-moon {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .config-panel {
+    width: 90%;
+    max-width: none;
+    left: 5%;
+    right: 5%;
+  }
+}
