@@ -1,258 +1,268 @@
-const ALLOWED_IPS = ['45.161.75.216'];
-let profiles = [
-    {
-        id: 1,
-        name: '𝐀𝐂𝐄 ⍟',
-        subname: 'odeioamor',
-        image: 'https://example.com/ace.gif',
-        badges: ['./images/apoiador.png', './images/nitro.gif', './images/impulso.png'],
-        social: {
-            instagram: 'https://www.instagram.com/stealht_gang/',
-            discord: 'https://discord.gg/8JF6JRnV4a',
-            youtube: 'https://www.youtube.com/@lovepussy'
-        }
-    },
-    // Adicione mais perfis aqui
-];
-
-function initParticles() {
-    particlesJS('particles-js', {
-        particles: {
-            number: { value: 80, density: { enable: true, value_area: 800 } },
-            color: { value: "#ffffff" },
-            shape: { type: "circle", stroke: { width: 0, color: "#000000" } },
-            opacity: { value: 0.5, random: false, anim: { enable: false } },
-            size: { value: 3, random: true, anim: { enable: false } },
-            line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
-            move: { enable: true, speed: 6, direction: "none", random: false, straight: false, out_mode: "out", bounce: false }
+document.addEventListener('DOMContentLoaded', () => {
+    const app = {
+        init() {
+            this.cacheDOM();
+            this.bindEvents();
+            this.loadTeam();
+            this.showUserIP();
+            this.checkAdminStatus();
         },
-        interactivity: {
-            detect_on: "canvas",
-            events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" }, resize: true },
-            modes: { grab: { distance: 400, line_linked: { opacity: 1 } }, bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 }, repulse: { distance: 200, duration: 0.4 }, push: { particles_nb: 4 }, remove: { particles_nb: 2 } }
+
+        cacheDOM() {
+            this.homeScreen = document.getElementById('home-screen');
+            this.teamScreen = document.getElementById('team-screen');
+            this.dashboardScreen = document.getElementById('dashboard-screen');
+            this.adminScreen = document.getElementById('admin-screen');
+            this.createTeamBtn = document.getElementById('create-team-btn');
+            this.homeLink = document.getElementById('home-link');
+            this.teamLink = document.getElementById('team-link');
+            this.dashboardLink = document.getElementById('dashboard-link');
+            this.adminLink = document.getElementById('admin-link');
+            this.teamNameElement = document.getElementById('team-name');
+            this.profileList = document.getElementById('profile-list');
+            this.profileListAdmin = document.getElementById('profile-list-admin');
+            this.teamNameInput = document.getElementById('team-name-input');
+            this.saveTeamNameBtn = document.getElementById('save-team-name');
+            this.profileForm = {
+                name: document.getElementById('profile-name'),
+                role: document.getElementById('profile-role'),
+                avatar: document.getElementById('profile-avatar'),
+                bio: document.getElementById('profile-bio'),
+                saveBtn: document.getElementById('save-profile')
+            };
+            this.userIPElement = document.getElementById('user-ip');
+            this.teamLinkDisplay = document.getElementById('team-link-display');
+            this.shareLinkElement = document.getElementById('share-link');
+            this.copyLinkBtn = document.getElementById('copy-link-btn');
+            this.allTeamsList = document.getElementById('all-teams-list');
         },
-        retina_detect: true
-    });
-}
 
-function playBackgroundAudio() {
-    const audio = document.getElementById('backgroundAudio');
-    audio.volume = 0.5;
-    audio.play().catch(error => console.error('Erro ao reproduzir áudio:', error));
-}
+        bindEvents() {
+            this.createTeamBtn.addEventListener('click', () => this.createTeam());
+            this.homeLink.addEventListener('click', () => this.showScreen('home'));
+            this.teamLink.addEventListener('click', () => this.showScreen('team'));
+            this.dashboardLink.addEventListener('click', () => this.showScreen('dashboard'));
+            this.adminLink.addEventListener('click', () => this.showScreen('admin'));
+            this.saveTeamNameBtn.addEventListener('click', () => this.saveTeamName());
+            this.profileForm.saveBtn.addEventListener('click', () => this.saveProfile());
+            this.copyLinkBtn.addEventListener('click', () => this.copyShareLink());
+        },
 
-function renderProfiles() {
-    const container = document.getElementById('profilesContainer');
-    container.innerHTML = '';
-
-    profiles.forEach(profile => {
-        const profileElement = document.createElement('div');
-        profileElement.className = 'profile-card';
-        profileElement.innerHTML = `
-            <img src="${profile.image}" alt="${profile.name}" class="profile-image">
-            <h2 class="profile-name">${profile.name}</h2>
-            <p class="profile-subname">${profile.subname}</p>
-            <div class="badges">
-                ${profile.badges.map(badge => `<div class="badge" style="background-image: url('${badge}')" title="Emblema"></div>`).join('')}
-            </div>
-            <div class="social-buttons">
-                <a href="${profile.social.instagram}" target="_blank" rel="noopener noreferrer" class="social-button">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="${profile.social.discord}" target="_blank" rel="noopener noreferrer" class="social-button">
-                    <i class="fab fa-discord"></i>
-                </a>
-                <a href="${profile.social.youtube}" target="_blank" rel="noopener noreferrer" class="social-button">
-                    <i class="fab fa-youtube"></i>
-                </a>
-            </div>
-        `;
-        container.appendChild(profileElement);
-    });
-}
-
-function toggleConfigPanel() {
-    const configContent = document.getElementById('configContent');
-    configContent.classList.toggle('hidden');
-}
-
-function updateProfileSelect() {
-    const select = document.getElementById('profileSelect');
-    select.innerHTML = '';
-    profiles.forEach(profile => {
-        const option = document.createElement('option');
-        option.value = profile.id;
-        option.textContent = profile.name;
-        select.appendChild(option);
-    });
-}
-
-function updateProfile() {
-    const id = parseInt(document.getElementById('profileSelect').value);
-    const name = document.getElementById('profileName').value;
-    const subname = document.getElementById('profileSubname').value;
-    const image = document.getElementById('profileImage').value;
-    const instagram = document.getElementById('instagramUrl').value;
-    const discord = document.getElementById('discordUrl').value;
-    const youtube = document.getElementById('youtubeUrl').value;
-
-    const profile = profiles.find(p => p.id === id);
-    if (profile) {
-        profile.name = name || profile.name;
-        profile.subname = subname || profile.subname;
-        profile.image = image || profile.image;
-        profile.social.instagram = instagram || profile.social.instagram;
-        profile.social.discord = discord || profile.social.discord;
-        profile.social.youtube = youtube || profile.social.youtube;
-        
-        // Update badges
-        profile.badges = [];
-        document.querySelectorAll('#badgeContainer input').forEach(input => {
-            if (input.value) {
-                profile.badges.push(input.value);
+        createTeam() {
+            const teamName = prompt('Enter your team name:');
+            if (teamName) {
+                const userIP = localStorage.getItem('userIP');
+                if (this.getTeamByIP(userIP)) {
+                    alert('You can only create one team per IP address.');
+                    return;
+                }
+                const teamId = this.generateTeamId();
+                const newTeam = { id: teamId, name: teamName, ip: userIP, profiles: [] };
+                this.saveTeam(newTeam);
+                this.loadTeam();
+                this.showScreen('team');
             }
-        });
+        },
 
-        renderProfiles();
-        updateProfileSelect();
-        saveProfilesToLocalStorage();
-    }
-}
+        loadTeam() {
+            const userIP = localStorage.getItem('userIP');
+            const team = this.getTeamByIP(userIP);
+            if (team) {
+                this.teamNameElement.textContent = team.name;
+                this.teamNameInput.value = team.name;
+                this.renderProfiles(this.profileList, team.profiles, false);
+                this.renderProfiles(this.profileListAdmin, team.profiles, true);
+                this.updateShareLink(team.id);
+            } else {
+                this.teamLinkDisplay.style.display = 'none';
+            }
+        },
 
-function addNewProfile() {
-    const newId = Math.max(...profiles.map(p => p.id), 0) + 1;
-    const newProfile = {
-        id: newId,
-        name: 'Novo Perfil',
-        subname: 'Novo Subnome',
-        image: 'https://example.com/default.jpg',
-        badges: [],
-        social: {
-            instagram: '#',
-            discord: '#',
-            youtube: '#'
+        saveTeamName() {
+            const teamName = this.teamNameInput.value;
+            const userIP = localStorage.getItem('userIP');
+            const team = this.getTeamByIP(userIP);
+            if (team) {
+                team.name = teamName;
+                this.saveTeam(team);
+                this.teamNameElement.textContent = teamName;
+            }
+        },
+
+        renderProfiles(container, profiles, isAdmin) {
+            container.innerHTML = '';
+            profiles.forEach((profile, index) => {
+                const profileElement = document.createElement('div');
+                profileElement.className = 'profile';
+                profileElement.innerHTML = `
+                    <img src="${profile.avatar}" alt="${profile.name}">
+                    <h3>${profile.name}</h3>
+                    <p>${profile.role}</p>
+                    <p class="profile-bio">${profile.bio}</p>
+                    ${isAdmin ? `
+                        <button onclick="app.editProfile(${index})">Edit</button>
+                        <button onclick="app.deleteProfile(${index})">Delete</button>
+                    ` : ''}
+                `;
+                container.appendChild(profileElement);
+            });
+        },
+
+        saveProfile() {
+            const userIP = localStorage.getItem('userIP');
+            const team = this.getTeamByIP(userIP);
+            if (team) {
+                const newProfile = {
+                    name: this.profileForm.name.value,
+                    role: this.profileForm.role.value,
+                    avatar: this.profileForm.avatar.value,
+                    bio: this.profileForm.bio.value
+                };
+                team.profiles.push(newProfile);
+                this.saveTeam(team);
+                this.loadTeam();
+                this.clearProfileForm();
+            }
+        },
+
+        editProfile(index) {
+            const userIP = localStorage.getItem('userIP');
+            const team = this.getTeamByIP(userIP);
+            if (team) {
+                const profile = team.profiles[index];
+                this.profileForm.name.value = profile.name;
+                this.profileForm.role.value = profile.role;
+                this.profileForm.avatar.value = profile.avatar;
+                this.profileForm.bio.value = profile.bio;
+                this.profileForm.saveBtn.onclick = () => {
+                    team.profiles[index] = {
+                        name: this.profileForm.name.value,
+                        role: this.profileForm.role.value,
+                        avatar: this.profileForm.avatar.value,
+                        bio: this.profileForm.bio.value
+                    };
+                    this.saveTeam(team);
+                    this.loadTeam();
+                    this.clearProfileForm();
+                    this.profileForm.saveBtn.onclick = () => this.saveProfile();
+                };
+            }
+        },
+
+        deleteProfile(index) {
+            const userIP = localStorage.getItem('userIP');
+            const team = this.getTeamByIP(userIP);
+            if (team) {
+                team.profiles.splice(index, 1);
+                this.saveTeam(team);
+                this.loadTeam();
+            }
+        },
+
+        clearProfileForm() {
+            this.profileForm.name.value = '';
+            this.profileForm.role.value = '';
+            this.profileForm.avatar.value = '';
+            this.profileForm.bio.value = '';
+        },
+
+        showScreen(screen) {
+            this.homeScreen.style.display = screen === 'home' ? 'block' : 'none';
+            this.teamScreen.style.display = screen === 'team' ? 'block' : 'none';
+            this.dashboardScreen.style.display = screen === 'dashboard' ? 'block' : 'none';
+            this.adminScreen.style.display = screen === 'admin' ? 'block' : 'none';
+        },
+
+        showUserIP() {
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    this.userIPElement.textContent = `Your IP: ${data.ip}`;
+                    localStorage.setItem('userIP', data.ip);
+                });
+        },
+
+        generateTeamId() {
+            return Math.random().toString(36).substr(2, 9);
+        },
+
+        saveTeam(team) {
+            const teams = JSON.parse(localStorage.getItem('teams')) || [];
+            const index = teams.findIndex(t => t.id === team.id);
+            if (index !== -1) {
+                teams[index] = team;
+            } else {
+                teams.push(team);
+            }
+            localStorage.setItem('teams', JSON.stringify(teams));
+        },
+
+        getTeamByIP(ip) {
+            const teams = JSON.parse(localStorage.getItem('teams')) || [];
+            return teams.find(team => team.ip === ip);
+        },
+
+        getTeamById(id) {
+            const teams = JSON.parse(localStorage.getItem('teams')) || [];
+            return teams.find(team => team.id === id);
+        },
+
+        updateShareLink(teamId) {
+            const shareLink = `${window.location.origin}?team=${teamId}`;
+            this.shareLinkElement.textContent = shareLink;
+            this.teamLinkDisplay.style.display = 'block';
+        },
+
+        copyShareLink() {
+            const shareLink = this.shareLinkElement.textContent;
+            navigator.clipboard.writeText(shareLink).then(() => {
+                alert('Link copied to clipboard!');
+            });
+        },
+
+        checkAdminStatus() {
+            const adminIPs = ['45.161.75.216']; // Add admin IPs here
+            const userIP = localStorage.getItem('userIP');
+            const isAdmin = adminIPs.includes(userIP);
+            this.adminLink.style.display = isAdmin ? 'inline' : 'none';
+            if (isAdmin) {
+                this.loadAllTeams();
+            }
+        },
+
+        loadAllTeams() {
+            const teams = JSON.parse(localStorage.getItem('teams')) || [];
+            this.allTeamsList.innerHTML = '';
+            teams.forEach(team => {
+                const teamElement = document.createElement('div');
+                teamElement.className = 'team-card';
+                teamElement.innerHTML = `
+                    <h3>${team.name}</h3>
+                    <p>Team ID: ${team.id}</p>
+                    <p>IP: ${team.ip}</p>
+                    <p>Profiles: ${team.profiles.length}</p>
+                    <button class="edit-team-btn" onclick="app.editTeam('${team.id}')">Edit Team</button>
+                `;
+                this.allTeamsList.appendChild(teamElement);
+            });
+        },
+
+        editTeam(teamId) {
+            const team = this.getTeamById(teamId);
+            if (team) {
+                this.teamNameInput.value = team.name;
+                this.renderProfiles(this.profileListAdmin, team.profiles, true);
+                this.showScreen('dashboard');
+                this.saveTeamNameBtn.onclick = () => {
+                    team.name = this.teamNameInput.value;
+                    this.saveTeam(team);
+                    this.loadAllTeams();
+                    alert('Team updated successfully!');
+                };
+            }
         }
     };
-    profiles.push(newProfile);
-    renderProfiles();
-    updateProfileSelect();
-    saveProfilesToLocalStorage();
-}
 
-function deleteProfile() {
-    const id = parseInt(document.getElementById('profileSelect').value);
-    profiles = profiles.filter(p => p.id !== id);
-    renderProfiles();
-    updateProfileSelect();
-    saveProfilesToLocalStorage();
-}
-
-function displayIPAddress() {
-    fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('ipDisplay').innerText = `Seu IP: ${data.ip}`;
-        })
-        .catch(error => console.error('Erro ao buscar IP:', error));
-}
-
-function makeDraggable(element) {
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    element.onmousedown = dragMouseDown;
-
-    function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        element.style.top = (element.offsetTop - pos2) + "px";
-        element.style.left = (element.offsetLeft - pos1) + "px";
-    }
-
-    function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
-
-function toggleTheme() {
-    document.body.classList.toggle('light-theme');
-    saveThemePreference();
-}
-
-function addBadgeInput() {
-    const container = document.getElementById('badgeContainer');
-    const input = document.createElement('input');
-    input.type = 'url';
-    input.placeholder = 'URL do Emblema';
-    container.appendChild(input);
-}
-
-function saveProfilesToLocalStorage() {
-    localStorage.setItem('profiles', JSON.stringify(profiles));
-}
-
-function loadProfilesFromLocalStorage() {
-    const savedProfiles = localStorage.getItem('profiles');
-    if (savedProfiles) {
-        profiles = JSON.parse(savedProfiles);
-        renderProfiles();
-        updateProfileSelect();
-    }
-}
-
-function saveThemePreference() {
-    localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
-}
-
-function loadThemePreference() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        document.body.classList.add('light-theme');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    initParticles();
-    loadProfilesFromLocalStorage();
-    loadThemePreference();
-
-    const startButton = document.getElementById('startButton');
-    startButton.addEventListener('click', () => {
-        document.querySelector('.overlay').style.display = 'none';
-        playBackgroundAudio();
-        renderProfiles();
-    });
-
-    document.getElementById('toggleConfig').addEventListener('click', toggleConfigPanel);
-    document.getElementById('updateProfile').addEventListener('click', updateProfile);
-    document.getElementById('addNewProfile').addEventListener('click', addNewProfile);
-    document.getElementById('deleteProfile').addEventListener('click', deleteProfile);
-    document.getElementById('addBadge').addEventListener('click', addBadgeInput);
-    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-
-    updateProfileSelect();
-    displayIPAddress();
-
-    makeDraggable(document.getElementById('configPanel'));
-
-    fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-            if (!ALLOWED_IPS.includes(data.ip)) {
-                document.getElementById('configPanel').style.display = 'none';
-            }
-        })
-        .catch(error => console.error('Erro ao verificar IP:', error));
+    app.init();
+    window.app = app; // Expose app to global scope for button onclick handlers
 });
