@@ -39,10 +39,6 @@ iDeaths é uma plataforma moderna de gestão de equipes baseada na web, reimagin
 3. Adicione perfis de membros à sua equipe
 4. Compartilhe a URL única da sua equipe
 
-## Contribuindo
-
-Contribuições são bem-vindas! Sinta-se à vontade para enviar um Pull Request.
-
 ## Licença
 
 Este projeto está licenciado sob a Licença MIT.
