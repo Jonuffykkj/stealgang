@@ -2,12 +2,9 @@
 
 iDeaths é uma plataforma moderna de gestão de equipes baseada na web, reimaginada a partir de um projeto anterior. Permite aos usuários criar e gerenciar até três equipes com perfis personalizáveis, música de fundo e cores de equipe.
 
-## Tela Inicial, Settings, Capa e Afins
+## Tela Inicial
 ![Tela Inicial](https://github.com/user-attachments/assets/e38d35d7-ba22-484f-abe7-310aac4d941c)
-![Tela de Settings](https://github.com/user-attachments/assets/d5a72ffd-1bda-4d88-a7f6-85af8dccc19e)
-![Capa de Equipe](https://github.com/user-attachments/assets/a7c981b2-6dc4-441d-84d7-93fdac991cd6)
-![Tela de Equipe](https://github.com/user-attachments/assets/2b57d5d6-c078-4a7f-a299-f89544cfa426)
-
+![Modal de Configuração de Perfil](https://github.com/human-image-uploads/1.png)
 
 ## Funcionalidades
 
