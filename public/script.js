@@ -46,21 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.profileForm?.addEventListener('submit', handleProfileSubmit);
     elements.teamSettingsForm?.addEventListener('submit', handleTeamSettingsSubmit);
     elements.copyTeamUrlBtn?.addEventListener('click', copyTeamUrl);
-    elements.teamCover?.addEventListener('click', () => {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.onchange = async (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const imageUrl = await uploadImage(file);
-          currentTeam.coverImage = imageUrl;
-          updateTeamDisplay();
-          await updateTeamSettings();
-        }
-      };
-      input.click();
-    });
+    elements.teamCover?.addEventListener('click', handleTeamCoverClick);
   };
 
   const createTeam = async () => {
@@ -356,54 +342,85 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  const uploadImage = async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
-    try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      if (!response.ok) throw new Error('Erro ao fazer upload da imagem');
-      const data = await response.json();
-      return data.imageUrl;
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      Swal.fire('Erro', 'Erro ao fazer upload da imagem. Por favor, tente novamente.', 'error');
-    }
+  const handleTeamCoverClick = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const imageUrl = URL.createObjectURL(file);
+        elements.teamCover.style.backgroundImage = `url('${imageUrl}')`;
+        elements.teamCoverInput.value = imageUrl;
+      }
+    };
+    input.click();
   };
 
   const copyTeamUrl = () => {
-    const teamUrl = `${window.location.origin}/team/${currentTeam.id}`;
-    navigator.clipboard.writeText(teamUrl).then(
-      () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'URL copiada!',
-          text: 'A URL da equipe foi copiada para a área de transferência.',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      },
-      (err) => {
-        console.error('Erro ao copiar URL:', err);
-        Swal.fire('Erro', 'Não foi possível copiar a URL. Por favor, tente novamente.', 'error');
-      },
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
+    Swal.fire(
+      'URL copiada!',
+      'A URL da equipe foi copiada para a área de transferência.',
+      'success',
     );
   };
 
-  const init = async () => {
-    try {
-      const response = await fetch('/api/teams');
-      if (!response.ok) throw new Error('Erro ao buscar equipes');
-      teams = await response.json();
-      updateTeamsList();
-    } catch (error) {
-      console.error('Error fetching teams:', error);
-      Swal.fire('Erro', 'Erro ao carregar equipes. Por favor, recarregue a página.', 'error');
-    }
-    initEventListeners();
-  };
-
-  init();
+  initEventListeners();
 });
+
+
+const updateTeamList = () => {
+  elements.teamsList.innerHTML = '';
+  teams.forEach((team, index) => {
+    const teamElement = document.createElement('div');
+    teamElement.classList.add('team-item', 'mb-4', 'p-4', 'bg-white', 'rounded-lg', 'shadow-md', 'cursor-pointer', 'hover:shadow-lg', 'transition', 'duration-300');
+    teamElement.innerHTML = `
+      <h3 class="text-xl font-semibold mb-2">${team.name}</h3>
+      <p class="text-gray-600">Membros: ${team.profiles.length}</p>
+    `;
+    teamElement.addEventListener('click', () => selectTeam(index));
+    elements.teamsList.appendChild(teamElement);
+  });
+};
+
+const selectTeam = (index) => {
+  currentTeam = teams[index];
+  updateTeamScreen();
+  showScreen(elements.teamScreen);
+};
+
+const updateTeamScreen = () => {
+  if (!currentTeam) return;
+
+  elements.teamName.textContent = currentTeam.name;
+  elements.teamCover.style.backgroundImage = `url('${currentTeam.coverImage}')`;
+  elements.bgColorPicker.value = currentTeam.bgColor;
+  elements.bgMusicInput.value = currentTeam.bgMusic;
+  elements.socialFacebook.value = currentTeam.socialLinks.facebook || '';
+  elements.socialTwitter.value = currentTeam.socialLinks.twitter || '';
+  elements.socialInstagram.value = currentTeam.socialLinks.instagram || '';
+
+  updateProfileList();
+};
+
+const updateProfileList = () => {
+  elements.profileList.innerHTML = '';
+  currentTeam.profiles.forEach((profile) => {
+    const profileElement = document.createElement('div');
+    profileElement.classList.add('profile-item', 'mb-4', 'p-4', 'bg-white', 'rounded-lg', 'shadow-md');
+    profileElement.innerHTML = `
+      <img src="${profile.avatar}" alt="${profile.name}" class="w-16 h-16 rounded-full mb-2">
+      <h4 class="text-lg font-semibold">${profile.name}</h4>
+      <p class="text-gray-600">${profile.role}</p>
+      <button class="delete-profile-btn mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600" data-id="${profile.id}">Excluir</button>
+    `;
+    elements.profileList.appendChild(profileElement);
+  });
+
+  document.querySelectorAll('.delete-profile-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => deleteProfile(e.target.dataset.id));
+  });
+};
+
