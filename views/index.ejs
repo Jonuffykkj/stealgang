@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="h-full bg-gray-50">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iDeath</title>
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .custom-checkbox {
+            appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #d1d5db;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .custom-checkbox:checked {
+            background-color: black;
+            border-color: transparent;
+        }
+
+        .custom-checkbox:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #000000, 0 0 0 4px #ffffff;
+        }
+
+        .custom-checkbox:checked::before {
+            content: '\2714';
+            position: absolute;
+            color: white;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body class="h-full bg-gray-50 text-gray-900">
+    <div id="app" class="min-h-screen flex flex-col">
+        <header class="bg-black text-white shadow-md">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="/img/favicon.png" alt="iDeath Logo" class="h-6 w-6 mr-2">
+                    <h1 class="text-xl font-bold tracking-tight">iDeath <span
+                            class="text-xs font-normal text-gray-400 ml-1">Beta</span></h1>
+                </div>
+                <nav class="space-x-4">
+                    <a href="#" id="home-link"
+                        class="text-sm font-medium hover:text-gray-300 transition duration-150 ease-in-out">Início</a>
+                    <a href="#" id="team-link"
+                        class="text-sm font-medium hover:text-gray-300 transition duration-150 ease-in-out">Equipe</a>
+                </nav>
+            </div>
+        </header>
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+            <div id="home-screen" class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-black leading-tight">Gestão Profissional
+                    de Equipes</h2>
+                <p class="mb-8 text-base sm:text-lg text-gray-600 max-w-xl mx-auto">Crie e gerencie até 3 equipes com
+                    eficiência e elegância.</p>
+                <button id="create-team-btn"
+                    class="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition duration-300 text-base font-semibold shadow-lg transform hover:scale-105">
+                    Criar Nova Equipe
+                </button>
+                <div id="teams-list" class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+            <div id="team-screen" class="hidden max-w-4xl mx-auto">
+                <div id="team-cover"
+                    class="h-72 bg-cover bg-center mb-12 rounded-2xl flex items-center justify-center cursor-pointer shadow-xl transition duration-300 hover:shadow-2xl">
+                    <h2 id="team-name"
+                        class="text-4xl font-bold text-white bg-black bg-opacity-60 px-8 py-4 rounded-full shadow-lg">
+                    </h2>
+                </div>
+                <div class="mb-12 bg-white p-8 rounded-2xl shadow-lg">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Configurações da Equipe</h3>
+                    <form id="team-settings-form" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="team-name-input" class="block text-sm font-medium text-gray-700 mb-1">Nome
+                                    da Equipe</label>
+                                <input type="text" id="team-name-input" name="team-name"
+                                    class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200">
+                            </div>
+                            <div>
+                                <label for="bg-color-picker" class="block text-sm font-medium text-gray-700 mb-1">Cor de
+                                    Fundo</label>
+                                <input type="color" id="bg-color-picker" name="bg-color"
+                                    class="w-full h-10 rounded-lg border-2 border-gray-300 cursor-pointer">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="bg-music-input" class="block text-sm font-medium text-gray-700 mb-1">Música de
+                                Fundo (URL)</label>
+                            <input type="url" id="bg-music-input" name="bg-music"
+                                class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200">
+                        </div>
+                        <div>
+                            <label for="team-cover-input" class="block text-sm font-medium text-gray-700 mb-1">Imagem de
+                                Capa (URL)</label>
+                            <input type="url" id="team-cover-input" name="team-cover"
+                                class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Redes Sociais</label>
+                            <div class="space-y-3">
+                                <input type="url" id="social-facebook" name="social-facebook" placeholder="Facebook URL"
+                                    class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200">
+                                <input type="url" id="social-twitter" name="social-twitter" placeholder="Twitter URL"
+                                    class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200">
+                                <input type="url" id="social-instagram" name="social-instagram"
+                                    placeholder="Instagram URL"
+                                    class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200">
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition duration-300 text-base font-semibold shadow-lg transform hover:scale-105">
+                            Salvar Configurações
+                        </button>
+                    </form>
+                </div>
+                <div class="mb-12 bg-white p-8 rounded-2xl shadow-lg">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold mb-3 sm:mb-0">Perfis da Equipe</h3>
+                        <button id="add-profile-btn"
+                            class="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition duration-300 shadow-lg transform hover:scale-105 text-sm">
+                            Adicionar Perfil
+                        </button>
+                    </div>
+                    <div id="profile-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                </div>
+                <button id="copy-team-url"
+                    class="w-full bg-gray-200 text-black px-6 py-3 rounded-full hover:bg-gray-300 transition duration-300 text-base font-semibold shadow-lg transform hover:scale-105">
+                    <i class="fas fa-copy mr-2"></i>Copiar URL da Equipe
+                </button>
+            </div>
+        </main>
+        <footer class="bg-black text-white py-6 mt-8">
+            <div class="container mx-auto px-4 text-center text-sm">
+                <p>&copy; 2024 iDeath. Todos os direitos reservados.</p>
+            </div>
+        </footer>
+    </div>
+    <div id="profile-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 backdrop-blur-sm">
+        <div class="bg-white p-8 rounded-2xl w-full max-w-3xl shadow-2xl mx-4">
+            <h3 class="text-2xl font-bold mb-6">Adicionar/Editar Perfil</h3>
+            <form id="profile-form" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="profile-name" class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                        <input type="text" id="profile-name" name="name"
+                            class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200">
+                    </div>
+                    <div>
+                        <label for="profile-role" class="block text-sm font-medium text-gray-700 mb-1">Cargo</label>
+                        <input type="text" id="profile-role" name="role"
+                            class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200">
+                    </div>
+                </div>
+                <div>
+                    <label for="profile-bio" class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                    <textarea id="profile-bio" name="bio" rows="3"
+                        class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200"></textarea>
+                </div>
+                <div>
+                    <label for="profile-avatar" class="block text-sm font-medium text-gray-700 mb-1">Avatar URL</label>
+                    <input type="url" id="profile-avatar" name="avatar"
+                        class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Redes Sociais</label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <input type="url" id="profile-social-linkedin" name="social-linkedin" placeholder="LinkedIn URL"
+                            class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200">
+                        <input type="url" id="profile-social-github" name="social-github" placeholder="GitHub URL"
+                            class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200">
+                        <input type="url" id="profile-social-twitter" name="social-twitter" placeholder="Twitter URL"
+                            class="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition duration-200">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Badges</label>
+                    <div class="flex space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" id="badge-apoiador" name="badge-apoiador" class="custom-checkbox">
+                            <span class="ml-2 text-sm">Apoiador</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" id="badge-impulso" name="badge-impulso" class="custom-checkbox">
+                            <span class="ml-2 text-sm">Impulso</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" id="badge-nitro" name="badge-nitro" class="custom-checkbox">
+                            <span class="ml-2 text-sm">Nitro</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" id="close-modal-btn"
+                        class="px-4 py-2 bg-gray-200 rounded-full hover:bg-gray-300 transition duration-300 transform hover:scale-105 text-sm">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition duration-300 transform hover:scale-105 text-sm">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <audio id="bg-music" loop></audio>
+    <script src="/script.js"></script>
+</body>
+
+</html>

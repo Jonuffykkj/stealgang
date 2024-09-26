@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="h-full bg-gray-50">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= team.name %> | iDeath
+  </title>
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .bg-blur {
+      backdrop-filter: blur(8px);
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .profile-card {
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .profile-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+
+<body class="h-full text-gray-900" style="background-color: <%= team.backgroundColor || '#f3f4f6' %>;">
+  <div class="min-h-screen flex flex-col">
+    <header class="bg-black text-white shadow-md">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+        <div class="flex items-center">
+          <img src="/img/favicon.png" alt="iDeath Logo" class="h-6 w-6 mr-2">
+          <h1 class="text-xl font-bold tracking-tight">iDeath <span
+              class="text-xs font-normal text-gray-400 ml-1">Beta</span></h1>
+        </div>
+        <a href="/" class="text-sm font-medium hover:text-gray-300 transition duration-150 ease-in-out">Voltar para o
+          início</a>
+      </div>
+    </header>
+
+    <main class="flex-grow">
+      <div id="team-cover" class="h-screen bg-cover bg-center flex items-center justify-center"
+        style="background-image: url('<%= team.coverImage || 'https://via.placeholder.com/1200x400' %>')">
+        <div class="text-center bg-blur px-8 py-6 rounded-2xl animate__animated animate__fadeIn">
+          <h2 class="text-4xl sm:text-5xl font-bold text-white mb-6"><%- team.name %></h2>
+          <button id="view-team-btn"
+            class="bg-white text-black px-6 py-3 rounded-full hover:bg-gray-200 transition duration-300 text-base font-semibold shadow-lg transform hover:scale-105">
+            Ver Equipe
+          </button>
+        </div>
+      </div>
+
+      <div id="profile-list" class="hidden container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <h3 class="text-3xl font-bold mb-8 text-center">Membros da Equipe</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <% profiles.forEach(profile=> { %>
+            <div class="profile-card bg-white p-6 rounded-2xl shadow-lg animate__animated animate__fadeIn">
+              <img src="<%= profile.avatar || '/img/default-avatar.png' %>" alt="<%= profile.name %>"
+                class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+              <h4 class="text-xl font-semibold mb-2 text-center">
+                <%= profile.name %>
+              </h4>
+              <p class="text-gray-600 mb-2 text-center">
+                <%= profile.role %>
+              </p>
+              <p class="text-gray-700 italic mb-4 text-center text-sm">
+                <%= profile.bio || '' %>
+              </p>
+              <div class="flex justify-center space-x-2 mb-4">
+                <% if (profile.badges.apoiador) { %>
+                  <img src="/img/apoiador.png" alt="Apoiador" class="w-5 h-5" title="Apoiador">
+                  <% } %>
+                    <% if (profile.badges.impulso) { %>
+                      <img src="/img/impulso.png" alt="Impulso" class="w-5 h-5" title="Impulso">
+                      <% } %>
+                        <% if (profile.badges.nitro) { %>
+                          <img src="/img/nitro.gif" alt="Nitro" class="w-5 h-5" title="Nitro">
+                          <% } %>
+              </div>
+              <div class="flex justify-center space-x-4">
+                <% if (profile.socialLinks.linkedin) { %>
+                  <a href="<%= profile.socialLinks.linkedin %>" target="_blank"
+                    class="text-gray-600 hover:text-black transition duration-300">
+                    <i class="fab fa-linkedin"></i>
+                  </a>
+                  <% } %>
+                    <% if (profile.socialLinks.github) { %>
+                      <a href="<%= profile.socialLinks.github %>" target="_blank"
+                        class="text-gray-600 hover:text-black transition duration-300">
+                        <i class="fab fa-github"></i>
+                      </a>
+                      <% } %>
+                        <% if (profile.socialLinks.twitter) { %>
+                          <a href="<%= profile.socialLinks.twitter %>" target="_blank"
+                            class="text-gray-600 hover:text-black transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                          </a>
+                          <% } %>
+              </div>
+            </div>
+            <% }); %>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-black text-white py-6 mt-8">
+      <div class="container mx-auto px-4 text-center text-sm">
+        <p class="mb-4">Criado com iDeath</p>
+        <div class="flex justify-center space-x-6">
+          <% if (team.socialLinks.facebook) { %>
+            <a href="<%= team.socialLinks.facebook %>" target="_blank"
+              class="text-gray-400 hover:text-white transition duration-300">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <% } %>
+              <% if (team.socialLinks.twitter) { %>
+                <a href="<%= team.socialLinks.twitter %>" target="_blank"
+                  class="text-gray-400 hover:text-white transition duration-300">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <% } %>
+                  <% if (team.socialLinks.instagram) { %>
+                    <a href="<%= team.socialLinks.instagram %>" target="_blank"
+                      class="text-gray-400 hover:text-white transition duration-300">
+                      <i class="fab fa-instagram"></i>
+                    </a>
+                    <% } %>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <audio id="bg-music" loop src="<%= team.backgroundMusic %>"></audio>
+
+  <script>
+    document.getElementById('view-team-btn').addEventListener('click', () => {
+      document.getElementById('team-cover').classList.add('animate__animated', 'animate__fadeOutUp');
+      setTimeout(() => {
+        document.getElementById('team-cover').style.display = 'none';
+        document.getElementById('profile-list').classList.remove('hidden');
+        document.getElementById('profile-list').classList.add('animate__animated', 'animate__fadeIn');
+      }, 1000);
+      document.getElementById('bg-music').play().catch(e => console.log('Autoplay prevented:', e));
+    });
+
+    const bgMusic = document.getElementById('bg-music');
+    bgMusic.volume = 0.5;
+
+    const musicControl = document.createElement('button');
+    musicControl.innerHTML = '<i class="fas fa-volume-up"></i>';
+    musicControl.className = 'fixed bottom-4 right-4 bg-black text-white p-3 rounded-full shadow-lg transition duration-300 hover:bg-gray-800 transform hover:scale-105';
+    musicControl.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicControl.innerHTML = '<i class="fas fa-volume-up"></i>';
+      } else {
+        bgMusic.pause();
+        musicControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+      }
+    });
+    document.body.appendChild(musicControl);
+  </script>
+</body>
+
+</html>
