@@ -145,5 +145,5 @@ app.post('/api/load', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`iDeath server running at http://localhost:${port}`);
+  console.log(`iDeaths server running at http://localhost:${port}`);
 });

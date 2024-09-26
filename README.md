@@ -1,6 +1,6 @@
-# iDeath - Plataforma de Gestão de Equipes
+# iDeaths - Plataforma de Gestão de Equipes
 
-iDeath é uma plataforma moderna de gestão de equipes baseada na web, reimaginada a partir de um projeto anterior. Permite aos usuários criar e gerenciar até três equipes com perfis personalizáveis, música de fundo e cores de equipe.
+iDeaths é uma plataforma moderna de gestão de equipes baseada na web, reimaginada a partir de um projeto anterior. Permite aos usuários criar e gerenciar até três equipes com perfis personalizáveis, música de fundo e cores de equipe.
 
 ## Funcionalidades
 
